@@ -45,6 +45,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "local_id": {
+          "name": "local_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         }
       },
       "name": "department",
@@ -113,6 +122,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "local_id": {
+          "name": "local_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         }
       },
       "name": "employee",
@@ -204,6 +222,15 @@
             "donation"
           ],
           "mappedType": "enum"
+        },
+        "local_id": {
+          "name": "local_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         }
       },
       "name": "transaction",

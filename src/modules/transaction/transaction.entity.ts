@@ -16,6 +16,9 @@ export class TransactionEntity extends BaseEntity {
 
   @Enum(() => TransactionTypes)
   type: TransactionTypes;
+
+  @Property()
+  localId: number;
 }
 
 export enum TransactionTypes {

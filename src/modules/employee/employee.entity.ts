@@ -1,7 +1,11 @@
 import { PersonEntity } from '../../entities/person.entity';
-import { Entity } from '@mikro-orm/core';
+import { Entity, Property } from '@mikro-orm/core';
+// import { DepartmentEntity } from '../department';
 
 @Entity({
   tableName: 'employee',
 })
-export class EmployeeEntity extends PersonEntity {}
+export class EmployeeEntity extends PersonEntity {
+  @Property()
+  localId: number;
+}
