@@ -7,7 +7,4 @@ import { BaseEntity } from '../../entities/base.entity';
 export class DepartmentEntity extends BaseEntity {
   @Property()
   name: string;
-
-  @Property({ unique: true })
-  localId: number;
 }

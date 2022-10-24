@@ -16,6 +16,11 @@ export class TransactionService {
   }
 
   async write(entities: TransactionEntity[]): Promise<void> {
-    return this._transactionRepository.persistAndFlush(entities);
+    return this._transactionRepository
+      .createQueryBuilder('t')
+      .insert(entities)
+      .onConflict('id')
+      .ignore()
+      .execute();
   }
 }

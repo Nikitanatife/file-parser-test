@@ -13,18 +13,14 @@ export class DepartmentService {
 
   create(body: CreateDepartmentDto): DepartmentEntity {
     return this._departmentRepository.create(body);
-    // let department = await this._departmentRepository.findOne({
-    //   localId: body.localId,
-    // });
-    //
-    // if (!department) {
-    //   department = this._departmentRepository.create(body);
-    // }
-    //
-    // return department;
   }
 
   async write(entities: DepartmentEntity[]): Promise<void> {
-    return this._departmentRepository.persistAndFlush(entities);
+    return this._departmentRepository
+      .createQueryBuilder('d')
+      .insert(entities)
+      .onConflict('id')
+      .ignore()
+      .execute();
   }
 }

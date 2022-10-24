@@ -4,7 +4,7 @@ import { TransactionTypes } from '../transaction.entity';
 export class CreateTransactionDto {
   @IsNotEmpty()
   @IsNumber()
-  localId: number;
+  id: number;
 
   @IsNotEmpty()
   @IsDate()

@@ -2,8 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as yaml from 'js-yaml';
 import { DepartmentService } from './modules/department';
 import { FileInterface, ITransaction } from './interfaces/file.interface';
-// import * as fs from 'fs/promises';
-// import * as path from 'path';
 import * as crypto from 'crypto';
 import { EmployeeService } from './modules/employee';
 import { TransactionService } from './modules/transaction/transaction.service';
@@ -18,58 +16,50 @@ export class AppService {
   ) {}
   async processUploadedFile(file: Express.Multer.File) {
     try {
-      const employees = [];
+      const employees = [],
+        departments = [];
       let transactions = [];
       const data = file.buffer.toString();
-      // const outputPath = path.join(__dirname, '../', 'temp', 'output');
 
       const dataYaml = await this.convertTextToYaml(data);
       const dataJs = yaml.load(dataYaml) as FileInterface;
 
-      const departmentsData = dataJs.e_list.map(
-        ({
-          employee: {
-            department: { name, id: localId },
-          },
-        }) => this._departmentService.create({ name, localId, id: localId }),
-      );
-      const departments = await Promise.all(departmentsData);
-
       dataJs.e_list.forEach(
         ({
           employee: {
-            id: employeeLocalId,
+            id: employeeId,
             name: employeeName,
             surname,
-            department: { id: departmentLocalId },
+            department: { id: departmentId, name: departmentName },
             salary,
             ...donationsData
           },
         }) => {
-          const department = departments.find(
-            (d) => d.localId === departmentLocalId,
-          );
+          const department = this._departmentService.create({
+            name: departmentName,
+            id: departmentId,
+          });
+          departments.push(department);
 
           const employee = this._employeeService.create({
             name: employeeName,
             surname,
             department: department.id,
-            localId: employeeLocalId,
+            id: employeeId,
           });
           employees.push(employee);
 
-          const salaries = salary.map(
-            ({ statement: { id: localId, date, amount } }) =>
-              this._transactionService.create({
-                amount,
-                date: new Date(date),
-                localId,
-                employee: employee.id,
-                type: TransactionTypes.SALARY,
-                currency: 'USD',
-              }),
+          const salaries = salary.map(({ statement: { id, date, amount } }) =>
+            this._transactionService.create({
+              amount,
+              date: new Date(date),
+              id,
+              employee: employee.id,
+              type: TransactionTypes.SALARY,
+              currency: 'USD',
+            }),
           );
-          // console.log(salaries);
+
           transactions = transactions.concat(salaries);
           const donations = [];
 
@@ -77,7 +67,7 @@ export class AppService {
             if (key.includes('donation') && value) {
               const donation = value as ITransaction<string>;
               const {
-                id: donationLocalId,
+                id: donationId,
                 date: donationDate,
                 amount: donationAmountData = '',
               } = donation;
@@ -85,7 +75,7 @@ export class AppService {
                 donationAmountData.split(' ');
               donations.push(
                 this._transactionService.create({
-                  localId: donationLocalId,
+                  id: donationId,
                   type: TransactionTypes.DONATION,
                   currency: donationCurrency,
                   date: new Date(donationDate),
@@ -99,13 +89,9 @@ export class AppService {
         },
       );
 
-      // console.log(employees);
-      // console.log(departments);
-      // console.log(transactions);
       await this._departmentService.write(departments);
-      // await this._employeeService.write(employees);
-      // await this._transactionService.write(transactions);
-      // TODO - write error
+      await this._employeeService.write(employees);
+      await this._transactionService.write(transactions);
 
       return dataJs;
     } catch (error) {
@@ -113,20 +99,13 @@ export class AppService {
     }
   }
 
-  private async convertTextToYaml(
-    data: string,
-    // outputPath: string,
-  ): Promise<string> {
-    const result = data
+  private async convertTextToYaml(data: string): Promise<string> {
+    return data
       .replace('E-List', 'e_list:')
       .replace(/^\s{2}Employee.*$/gm, '- employee:')
       .replace(/Department/gm, 'department:')
       .replace(/Salary/gm, 'salary:')
       .replace(/^\s{6}Statement.*$/gm, '    - statement:')
-      // .replace(/^\s{4}Donation.*$/gm, `    donation${uuid()}:`)
-      // .replace(/donation:\n\s\s\s\s\s\sid:/g, 'donation:\n        id:')
-      // .replace(/\s{6}date:/g, '        date:')
-      // .replace(/\s{6}amount:/g, '        amount:')
       .replace('Rates', 'rates:')
       .replace(/^\s{2}Rate.*$/gm, '- rate:')
       .split(/(Donation)/g)
@@ -136,8 +115,5 @@ export class AppService {
           : item,
       )
       .join('');
-
-    // await fs.writeFile(outputPath, result);
-    return result;
   }
 }

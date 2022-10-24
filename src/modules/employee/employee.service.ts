@@ -16,6 +16,11 @@ export class EmployeeService {
   }
 
   async write(entities: EmployeeEntity[]): Promise<void> {
-    return this._employeeRepository.persistAndFlush(entities);
+    return this._employeeRepository
+      .createQueryBuilder('e')
+      .insert(entities)
+      .onConflict('id')
+      .ignore()
+      .execute();
   }
 }

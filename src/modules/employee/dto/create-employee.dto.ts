@@ -3,7 +3,7 @@ import { IsNumber, IsNotEmpty, IsAlpha } from 'class-validator';
 export class CreateEmployeeDto {
   @IsNotEmpty()
   @IsNumber()
-  localId: number;
+  id: number;
 
   @IsNotEmpty()
   @IsAlpha()

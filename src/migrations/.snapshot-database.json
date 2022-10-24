@@ -45,29 +45,11 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
-        },
-        "local_id": {
-          "name": "local_id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
         }
       },
       "name": "department",
       "schema": "public",
       "indexes": [
-        {
-          "columnNames": [
-            "local_id"
-          ],
-          "composite": false,
-          "keyName": "department_local_id_unique",
-          "primary": false,
-          "unique": true
-        },
         {
           "keyName": "department_pkey",
           "columnNames": [
@@ -131,15 +113,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
-        },
-        "local_id": {
-          "name": "local_id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
         },
         "department_id": {
           "name": "department_id",
@@ -253,15 +226,6 @@
             "donation"
           ],
           "mappedType": "enum"
-        },
-        "local_id": {
-          "name": "local_id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "integer"
         },
         "employee_id": {
           "name": "employee_id",

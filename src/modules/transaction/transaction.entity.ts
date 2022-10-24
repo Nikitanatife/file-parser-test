@@ -18,9 +18,6 @@ export class TransactionEntity extends BaseEntity {
   @Enum(() => TransactionTypes)
   type: TransactionTypes;
 
-  @Property()
-  localId: number;
-
   @ManyToOne()
   employee: EmployeeEntity;
 }
