@@ -1,19 +1,15 @@
 import { IsNumber, IsNotEmpty, IsAlpha } from 'class-validator';
 
-export class CreateEmployeeDto {
+export class CreateDepartmentDto {
   @IsNotEmpty()
   @IsNumber()
   localId: number;
 
   @IsNotEmpty()
+  @IsNumber()
+  id: number;
+
+  @IsNotEmpty()
   @IsAlpha()
   name: string;
-
-  @IsNotEmpty()
-  @IsAlpha()
-  surname: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  department: number;
 }

@@ -12,5 +12,6 @@ import { DepartmentEntity } from './department.entity';
       entities: [DepartmentEntity],
     }),
   ],
+  exports: [DepartmentService],
 })
 export class DepartmentModule {}

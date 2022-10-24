@@ -2,14 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { EmployeeEntity } from './employee.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-// import { CreateEmployeeDto } from './dto';
+import { CreateEmployeeDto } from './dto';
 
 @Injectable()
 export class EmployeeService {
   constructor(
     @InjectRepository(EmployeeEntity)
-    private readonly _transactionRepository: EntityRepository<EmployeeEntity>,
+    private readonly _employeeRepository: EntityRepository<EmployeeEntity>,
   ) {}
 
-  // async create(body: CreateEmployeeDto) {}
+  create(body: CreateEmployeeDto): EmployeeEntity {
+    return this._employeeRepository.create(body);
+  }
+
+  async write(entities: EmployeeEntity[]): Promise<void> {
+    return this._employeeRepository.persistAndFlush(entities);
+  }
 }

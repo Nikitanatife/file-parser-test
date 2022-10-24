@@ -8,6 +8,6 @@ export class DepartmentEntity extends BaseEntity {
   @Property()
   name: string;
 
-  @Property()
+  @Property({ unique: true })
   localId: number;
 }

@@ -60,6 +60,15 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": [
+            "local_id"
+          ],
+          "composite": false,
+          "keyName": "department_local_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "department_pkey",
           "columnNames": [
             "id"
@@ -131,6 +140,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "department_id": {
+          "name": "department_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         }
       },
       "name": "employee",
@@ -147,7 +165,20 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {
+        "employee_department_id_foreign": {
+          "constraintName": "employee_department_id_foreign",
+          "columnNames": [
+            "department_id"
+          ],
+          "localTableName": "public.employee",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.department",
+          "updateRule": "cascade"
+        }
+      }
     },
     {
       "columns": {
@@ -206,7 +237,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "default": "'USD'",
           "mappedType": "string"
         },
@@ -231,6 +262,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "employee_id": {
+          "name": "employee_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         }
       },
       "name": "transaction",
@@ -247,7 +287,20 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {}
+      "foreignKeys": {
+        "transaction_employee_id_foreign": {
+          "constraintName": "transaction_employee_id_foreign",
+          "columnNames": [
+            "employee_id"
+          ],
+          "localTableName": "public.transaction",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.employee",
+          "updateRule": "cascade"
+        }
+      }
     }
   ]
 }

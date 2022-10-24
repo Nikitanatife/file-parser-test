@@ -12,5 +12,6 @@ import { EmployeeEntity } from './employee.entity';
       entities: [EmployeeEntity],
     }),
   ],
+  exports: [EmployeeService],
 })
 export class EmployeeModule {}
