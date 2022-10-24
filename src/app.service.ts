@@ -71,8 +71,19 @@ export class AppService {
                 date: donationDate,
                 amount: donationAmountData = '',
               } = donation;
-              const [donationAmount = 0, donationCurrency = 'USD'] =
+              let [donationAmount = 0, donationCurrency = 'USD'] =
                 donationAmountData.split(' ');
+
+              const rate = dataJs.rates?.find(
+                ({ rate: { date, sign } }) =>
+                  date === donationDate && donationCurrency === sign,
+              );
+
+              if (rate) {
+                donationAmount = Number(donationAmount) * rate.rate.value;
+                donationCurrency = 'USD';
+              }
+
               donations.push(
                 this._transactionService.create({
                   id: donationId,

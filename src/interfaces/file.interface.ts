@@ -24,6 +24,15 @@ interface IEmployee {
   };
 }
 
+interface IRate {
+  rate: {
+    date: string;
+    sign: string;
+    value: number;
+  };
+}
+
 export interface FileInterface {
   e_list: IEmployee[];
+  rates?: IRate[];
 }
