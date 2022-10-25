@@ -1,1 +1,1 @@
-export * from './getEmployeesDonatedMost';
+export * from './get-employees-donated-most';
