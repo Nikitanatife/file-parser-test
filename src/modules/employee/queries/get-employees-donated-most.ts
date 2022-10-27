@@ -1,15 +1,15 @@
 export const GET_EMPLOYEES_DONATED_MOST = `SELECT 
                 e.*,
-                monthlyData.avgMonthSalary,
+                monthlyData.avg_salary,
                 monthlyData.donations,
-                minYearly."minYearly"
+                minYearly."min_yearly_amount"
             FROM
                 "employee" e
             JOIN
                 (
                 SELECT
                     t2.employee_id as employee,
-                    AVG(t2.amount) as avgMonthSalary,
+                    AVG(t2.amount) as avg_salary,
                     SUM(t3.amount) as donations
                 FROM
                     (
@@ -43,7 +43,7 @@ export const GET_EMPLOYEES_DONATED_MOST = `SELECT
             LEFT JOIN (
                 SELECT
                     yearly.employee as "employee",
-                    MIN(yearly."avg") as "minYearly"
+                    MIN(yearly."avg") as "min_yearly_amount"
                 FROM
                     (
                     SELECT
@@ -62,4 +62,4 @@ export const GET_EMPLOYEES_DONATED_MOST = `SELECT
                     yearly.employee
             ) as minYearly ON
                 minYearly.employee = monthlyData.employee
-           ORDER BY minYearly."minYearly"`;
+           ORDER BY minYearly."min_yearly_amount"`;

@@ -4,8 +4,8 @@ import { DepartmentService } from './modules/department';
 import { FileInterface, ITransaction } from './interfaces/file.interface';
 import * as crypto from 'crypto';
 import { EmployeeService } from './modules/employee';
-import { TransactionService } from './modules/transaction/transaction.service';
-import { TransactionTypes } from './modules/transaction/transaction.entity';
+import { TransactionService } from './modules/transaction';
+import { TransactionTypes } from './modules/transaction';
 
 @Injectable()
 export class AppService {
